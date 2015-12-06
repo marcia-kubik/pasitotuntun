@@ -12,6 +12,7 @@ body {
 	margin-left: 40px;
 	margin-right: 40px;
 	margin: 0 auto;
+	text-align: center;
 }
 
 
@@ -32,6 +33,13 @@ a {
 }
 h1 {
 	line-height: 1.2em;
+}
+h3{
+	font-size: 1.4em !important;
+    line-height: 1.2em !important;
+    margin-top: -18px !important;
+    left: 0;
+    right: 0;
 }
 
 h1, h2, p, form, ul, ol, svg {
