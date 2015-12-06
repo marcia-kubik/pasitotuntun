@@ -101,15 +101,15 @@ document.querySelector('form').addEventListener('submit', function(e) {
             return intB.count - intA.count;
           }).splice(0,5);
 
-          text.innerHTML = '<div id="guess">Guess for track <strong>' + track.name + '</strong> by ' +
-            '<strong>' + track.artists[0].name + '</strong> is <strong>' + Math.round(top[0].tempo) + ' BPM</strong>' +
-            ' with ' + top[0].count + ' samples.</div>';
+          // text.innerHTML = '<div id="guess">Guess for track <strong>' + track.name + '</strong> by ' +
+          //   '<strong>' + track.artists[0].name + '</strong> is <strong>' + Math.round(top[0].tempo) + ' BPM</strong>' +
+          //   ' with ' + top[0].count + ' samples.</div>';
 
-          text.innerHTML += '<div class="small">Other options are ' +
-            top.slice(1).map(function(group, index) {
-              return group.tempo + ' BPM (' + group.count + ')';
-            }).join(', ') +
-            '</div>';
+          // text.innerHTML += '<div class="small">Other options are ' +
+          //   top.slice(1).map(function(group, index) {
+          //     return group.tempo + ' BPM (' + group.count + ')';
+          //   }).join(', ') +
+          //   '</div>';
 
           var printENBPM = function(tempo) {
             // text.innerHTML += '<div class="small">Other sources: The tempo according to The Echo Nest API is ' +
@@ -121,8 +121,10 @@ document.querySelector('form').addEventListener('submit', function(e) {
                   } else {
                     beat = 'slow'
                   }
-                  putStep(beat);
                   addMoreButton(beat);
+                  putStep(beat);
+
+        
           };
           echonestApi.getSongAudioSummaryBySpotifyUri(track.uri)
             .then(function(result) {
@@ -229,10 +231,13 @@ function addMoreButton(beat){
 }
 }
 function putStep(beat){
-  $.get("http://localhost:4000/api/getRandom/" + beat, {}, function(data){
+  $.get("http://f59676f9.ngrok.io/api/getRandom/" + beat, {}, function(data){
                     $("#image_title").text(data.name);
                     $("#beat").text(data.beat);
-                    $("#image_step").attr('src', data.url);
+                    $("#image_step").attr('src', data.url).load(function(){
+                      document.location.href = "#more_button";
+                    });
                   });
   audioTag.play();
+
 }
