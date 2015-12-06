@@ -112,8 +112,17 @@ document.querySelector('form').addEventListener('submit', function(e) {
             '</div>';
 
           var printENBPM = function(tempo) {
-            text.innerHTML += '<div class="small">Other sources: The tempo according to The Echo Nest API is ' +
-                  tempo + ' BPM</div>';
+            // text.innerHTML += '<div class="small">Other sources: The tempo according to The Echo Nest API is ' +
+            //       tempo + ' BPM</div>';
+                  if (tempo >= 130){
+                    beat = 'fast'
+                  } else if(tempo < 130 && tempo >= 90){
+                    beat = 'medium'
+                  } else {
+                    beat = 'slow'
+                  }
+                  putStep(beat);
+                  addMoreButton(beat);
           };
           echonestApi.getSongAudioSummaryBySpotifyUri(track.uri)
             .then(function(result) {
@@ -208,4 +217,22 @@ function groupNeighborsByTempo(intervalCounts, sampleRate) {
     }
   });
   return tempoCounts;
+}
+
+function addMoreButton(beat){
+  $button = $("#more_button");
+  if(!$button){
+  $("#image_container").append("<button id='more_button'> Otro paso </button>");
+  $("#more_button").click(function(){
+    putStep(beat);
+  });
+}
+}
+function putStep(beat){
+  $.get("http://localhost:4000/api/getRandom/" + beat, {}, function(data){
+                    $("#image_title").text(data.name);
+                    $("#beat").text(data.beat);
+                    $("#image_step").attr('src', data.url);
+                  });
+  audioTag.play();
 }
