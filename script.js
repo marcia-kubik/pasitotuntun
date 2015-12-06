@@ -221,7 +221,7 @@ function groupNeighborsByTempo(intervalCounts, sampleRate) {
 
 function addMoreButton(beat){
   $button = $("#more_button");
-  if(!$button){
+  if($button.length == 0){
   $("#image_container").append("<button id='more_button'> Otro paso </button>");
   $("#more_button").click(function(){
     putStep(beat);
